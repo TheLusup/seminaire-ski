@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Séminaire ski</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --blue: #00338D;
+      --cobalt: #1E49E2;
+      --sky: #0091DA;
+      --amber: #F5A34B;
+      --ink: #0B1F44;
+      --muted: #5B6B85;
+      --card: #FFFFFF;
+      --bg: #F4F7FC;
+      --soft: #EEF3FB;
+      --sel: #EAF0FF;
+      --border: #DCE4F2;
+      --link: #1E49E2;
+      --error-bg: #FDECEC;
+      --error-text: #A12626;
+      --warn-bg: #FFF4E2;
+      --warn-text: #7A4D00;
+      --shadow: 0 24px 60px -24px rgba(0, 51, 141, 0.35), 0 4px 14px rgba(11, 31, 68, 0.06);
+      --title: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --text: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #E8EEF9;
+        --muted: #9FB0CC;
+        --card: #12203F;
+        --bg: #0A1630;
+        --soft: #172A50;
+        --sel: #1A3473;
+        --border: #2A3F6A;
+        --link: #8FB3FF;
+        --error-bg: #3A1A1D;
+        --error-text: #FFB4B4;
+        --warn-bg: #3A2E14;
+        --warn-text: #F3D684;
+        --shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.6);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--text);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------- En-tête : coucher de soleil sur les sommets ---------- */
+    .hero {
+      position: relative;
+      height: 390px;
+      overflow: hidden;
+      color: #fff;
+      background: linear-gradient(180deg, #001A4D 0%, #00338D 28%, #1E49E2 50%, #E9A063 74%, #FFD7A6 88%);
+    }
+    .sun {
+      position: absolute; right: 12%; bottom: 120px;
+      width: 180px; height: 180px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 226, 189, 0.95) 0%, rgba(245, 163, 75, 0.55) 35%, rgba(245, 163, 75, 0) 70%);
+      animation: glow 6s ease-in-out infinite alternate;
+    }
+    .mountains { position: absolute; left: -5%; bottom: -1px; width: 110%; height: 230px; }
+    .mountains path { transform-box: fill-box; }
+    .layer-back { animation: drift 26s ease-in-out infinite alternate; }
+    .layer-mid { animation: drift 18s ease-in-out infinite alternate-reverse; }
+    .layer-front { fill: var(--bg); }
+    #snow { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .hero-content {
+      position: relative; z-index: 1;
+      max-width: 640px; margin: 0 auto; padding: 44px 24px 0;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 6px 12px; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(6px);
+    }
+    .eyebrow svg { width: 14px; height: 14px; }
+    .hero h1 {
+      font-family: var(--title); font-weight: 800;
+      font-size: clamp(2.2rem, 7vw, 3rem); line-height: 1.05; letter-spacing: -0.03em;
+      margin: 14px 0 8px;
+      text-shadow: 0 6px 30px rgba(0, 20, 60, 0.35);
+    }
+    .hero p { margin: 0; opacity: 0.88; font-size: 1rem; }
+    .reveal { opacity: 0; animation: rise 0.9s var(--ease) forwards; }
+    .reveal.d1 { animation-delay: 0.08s; }
+    .reveal.d2 { animation-delay: 0.18s; }
+    .reveal.d3 { animation-delay: 0.3s; }
+
+    /* ---------- Carte principale ---------- */
+    main { position: relative; z-index: 2; max-width: 640px; margin: -60px auto 48px; padding: 0 16px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      animation: rise 0.8s var(--ease) 0.25s both;
+    }
+    @media (max-width: 480px) { .card { padding: 22px 18px; border-radius: 20px; } }
+    h2 {
+      font-family: var(--title); font-weight: 700;
+      margin: 0 0 6px; font-size: 1.45rem; letter-spacing: -0.02em;
+    }
+    h2:focus { outline: none; }
+    .lead { margin: 0 0 22px; color: var(--muted); }
+
+    /* ---------- Progression ---------- */
+    .progress { margin: 0 0 18px; }
+    .segments { display: flex; gap: 6px; }
+    .segments span {
+      position: relative; flex: 1; height: 6px; border-radius: 3px;
+      background: var(--soft); overflow: hidden;
+    }
+    .segments span::after {
+      content: ""; position: absolute; inset: 0; border-radius: inherit;
+      background: linear-gradient(90deg, var(--cobalt), var(--sky));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.6s var(--ease);
+    }
+    .segments span.done::after, .segments span.current::after { transform: scaleX(1); }
+    .segments span.current::after { background: linear-gradient(90deg, var(--cobalt), var(--amber)); }
+    .progress-label {
+      margin: 10px 0 0; color: var(--muted);
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+
+    /* ---------- Champs ---------- */
+    .field { margin: 0 0 20px; border: 0; padding: 0; min-width: 0; }
+    .field[hidden] { display: none; }
+    .step .field:not([hidden]) { animation: unfold 0.45s var(--ease); }
+    label, legend { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 8px; padding: 0; }
+    .req { color: var(--cobalt); }
+    .opt { color: var(--muted); font-weight: 400; font-size: 0.85em; }
+    .help { margin: -4px 0 10px; color: var(--muted); font-size: 0.88rem; }
+    input[type="text"], input[type="email"], input[type="number"], select, textarea {
+      width: 100%;
+      padding: 13px 14px;
+      font: inherit; font-size: 1rem;
+      color: var(--ink);
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input::placeholder, textarea::placeholder { color: var(--muted); opacity: 0.7; }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--cobalt);
+      box-shadow: 0 0 0 4px rgba(30, 73, 226, 0.16);
+    }
+    select {
+      appearance: none; padding-right: 42px; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%235B6B85' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center;
+    }
+
+    /* Choix en pastilles (radio / cases) */
+    .choices { display: flex; flex-wrap: wrap; gap: 8px; }
+    .choice {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 500; margin: 0;
+      padding: 10px 14px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .choice:hover { border-color: var(--cobalt); }
+    .choice input { accent-color: var(--cobalt); width: 18px; height: 18px; margin: 0; }
+    .choice:has(input:checked) { border-color: var(--cobalt); background: var(--sel); animation: pop 0.3s var(--ease); }
+
+    /* Choix en cartes avec icône */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+    .card-choice {
+      position: relative; display: flex; flex-direction: column; gap: 4px;
+      margin: 0; padding: 16px; min-height: 118px;
+      background: var(--card); border: 1.5px solid var(--border); border-radius: 18px;
+      cursor: pointer; font-weight: 400;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s var(--ease), box-shadow 0.2s;
+    }
+    .card-choice:hover { transform: translateY(-2px); border-color: var(--cobalt); }
+    .card-choice input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+    .card-icon {
+      display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 8px;
+      border-radius: 14px; background: var(--soft); color: var(--blue);
+      transition: background 0.25s, color 0.25s, transform 0.35s var(--ease);
+    }
+    .card-icon svg { width: 24px; height: 24px; }
+    .card-title { font-family: var(--title); font-weight: 700; font-size: 1rem; }
+    .card-detail { color: var(--muted); font-size: 0.85rem; }
+    .card-check {
+      position: absolute; top: 14px; right: 14px; width: 22px; height: 22px; border-radius: 50%;
+      border: 1.5px solid var(--border); transition: all 0.25s var(--ease);
+    }
+    .card-choice:has(input:checked) {
+      border-color: var(--cobalt); background: var(--sel);
+      box-shadow: 0 10px 24px -12px rgba(30, 73, 226, 0.5);
+    }
+    .card-choice:has(input:checked) .card-icon { background: var(--cobalt); color: #fff; transform: rotate(-6deg) scale(1.06); }
+    .card-choice:has(input:checked) .card-check {
+      border-color: var(--cobalt);
+      background: var(--cobalt) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center no-repeat;
+    }
+    .card-choice:has(input:focus-visible), .choice:has(input:focus-visible) {
+      outline: 3px solid rgba(30, 73, 226, 0.45); outline-offset: 2px;
+    }
+
+    /* ---------- Étapes ---------- */
+    .step { display: flex; flex-wrap: wrap; column-gap: 12px; }
+    .step > * { flex: 1 1 100%; min-width: 0; }
+    .step > .field.half { flex: 1 1 calc(50% - 6px); }
+    @media (max-width: 480px) { .step > .field.half { flex-basis: 100%; } }
+    .step.enter-fwd { animation: slide-fwd 0.5s var(--ease); }
+    .step.enter-back { animation: slide-back 0.5s var(--ease); }
+    .subhead { font-family: var(--title); font-weight: 700; margin: 4px 0 12px; }
+    .intro { margin: 0 0 16px; }
+    .notice {
+      background: var(--soft); border-left: 4px solid var(--amber);
+      padding: 14px 16px; border-radius: 12px; margin: 0 0 20px;
+    }
+    .notice ul { margin: 6px 0 0; padding-left: 20px; }
+    .seminaire { margin: 0 0 22px; }
+    .seminaire-img { width: 100%; max-height: 240px; object-fit: cover; border-radius: 16px; margin-bottom: 14px; }
+    .infos { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 14px; }
+    .info { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 14px; background: var(--soft); }
+    .info-icon { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 12px; background: var(--card); color: var(--blue); }
+    .info-icon svg { width: 20px; height: 20px; }
+    .info-key { display: block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+    .info-value { display: block; font-family: var(--title); font-weight: 600; font-size: 0.95rem; }
+    body:not(.solo-room) .solo-only, body.solo-room .shared-only { display: none; }
+
+    /* ---------- Boutons ---------- */
+    .actions { display: flex; gap: 12px; justify-content: flex-end; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+    button {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: var(--title); font-weight: 700; font-size: 1rem;
+      padding: 14px 22px; border-radius: 14px; cursor: pointer;
+      transition: transform 0.2s var(--ease), box-shadow 0.2s, opacity 0.2s;
+    }
+    .btn-primary {
+      border: 0; color: #fff;
+      background: linear-gradient(135deg, var(--cobalt), var(--blue));
+      box-shadow: 0 12px 24px -10px rgba(30, 73, 226, 0.7);
+    }
+    .btn-primary svg { width: 18px; height: 18px; transition: transform 0.25s var(--ease); }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 16px 30px -12px rgba(30, 73, 226, 0.8); }
+    .btn-primary:hover svg { transform: translateX(3px); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-secondary { background: transparent; color: var(--link); border: 1.5px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--cobalt); }
+    button:disabled { opacity: 0.6; cursor: wait; transform: none; }
+
+    /* ---------- Messages ---------- */
+    .error {
+      background: var(--error-bg); color: var(--error-text);
+      padding: 12px 14px; border-radius: 12px; margin: 0 0 18px;
+      animation: shake 0.4s;
+    }
+    .banner {
+      background: var(--warn-bg); color: var(--warn-text);
+      padding: 10px 14px; border-radius: 12px; margin: 0 0 14px; font-size: 0.88rem;
+    }
+
+    /* ---------- Fin ---------- */
+    .done-head { text-align: center; padding: 6px 0 4px; }
+    .done-mark { width: 84px; height: 84px; margin: 0 auto 14px; }
+    .done-mark circle { fill: none; stroke: var(--cobalt); stroke-width: 3; stroke-dasharray: 240; stroke-dashoffset: 240; }
+    .done-mark path { fill: none; stroke: var(--amber); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 60; stroke-dashoffset: 60; }
+    #view-done:not([hidden]) .done-mark circle { animation: draw 0.7s var(--ease) 0.1s forwards; }
+    #view-done:not([hidden]) .done-mark path { animation: draw 0.45s var(--ease) 0.65s forwards; }
+    #view-done:not([hidden]) .done-head h2, #view-done:not([hidden]) .done-head .lead { animation: rise 0.7s var(--ease) 0.4s both; }
+    dl { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 0; margin: 18px 0 0; border-top: 1px solid var(--border); }
+    dt, dd { padding: 10px 0; border-bottom: 1px solid var(--border); }
+    dt { color: var(--muted); font-size: 0.9rem; padding-right: 12px; }
+    dd { margin: 0; font-weight: 500; overflow-wrap: anywhere; }
+    .celebration { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 10; }
+
+    [hidden] { display: none !important; }
+
+    /* ---------- Animations ---------- */
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    @keyframes unfold { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+    @keyframes slide-fwd { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+    @keyframes slide-back { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+    @keyframes pop { 50% { transform: scale(1.04); } }
+    @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes drift { from { transform: translateX(-2%); } to { transform: translateX(2%); } }
+    @keyframes glow { from { opacity: 0.75; transform: scale(0.96); } to { opacity: 1; transform: scale(1.06); } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important; animation-delay: 0s !important;
+        animation-iteration-count: 1 !important; transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="sun"></div>
+    <svg class="mountains" viewBox="0 0 400 190" preserveAspectRatio="none" aria-hidden="true">
+      <path class="layer-back" fill="#3F6FE8" fill-opacity="0.55"
+        d="M0 110 L45 70 L80 92 L135 30 L185 85 L235 48 L290 98 L340 60 L400 95 L400 190 L0 190 Z"/>
+      <path class="layer-back" fill="#FFFFFF" fill-opacity="0.85"
+        d="M135 30 L121 46 L129 44 L135 52 L142 43 L149 46 Z M235 48 L224 60 L231 58 L236 64 L242 57 L247 60 Z M340 60 L330 71 L336 69 L341 74 L346 68 L351 71 Z"/>
+      <path class="layer-mid" fill="#00338D" fill-opacity="0.9"
+        d="M0 150 L60 105 L105 135 L165 88 L225 140 L285 110 L345 145 L400 120 L400 190 L0 190 Z"/>
+      <path class="layer-front" d="M0 172 Q90 150 190 168 T400 160 L400 190 L0 190 Z"/>
+    </svg>
+    <canvas id="snow" aria-hidden="true"></canvas>
+    <div class="hero-content">
+      <span class="eyebrow reveal d1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1"/></svg>
+        Inscription
+      </span>
+      <h1 class="reveal d2">Séminaire ski</h1>
+      <p id="hero-sub" class="reveal d3">Formulaire d'inscription des participants</p>
+    </div>
+  </header>
+
+  <main>
+    <div id="demo-banner" class="banner" hidden>
+      Mode démo : invités fictifs, réponses stockées dans ce navigateur uniquement.
+      Exemple d'adresse valide : camille.martin@kpmg.fr
+    </div>
+
+    <!-- Identification -->
+    <section id="view-login" class="card">
+      <h2 tabindex="-1">Bienvenue !</h2>
+      <p class="lead">Identifiez-vous avec votre adresse email KPMG pour accéder au questionnaire.</p>
+      <div id="login-error" class="error" role="alert" hidden></div>
+      <form id="login-form" novalidate>
+        <div class="step">
+          <div class="field half">
+            <label for="prenom">Prénom <span class="req">*</span></label>
+            <input id="prenom" type="text" autocomplete="given-name" maxlength="100" data-format="prenom" placeholder="Camille" required>
+          </div>
+          <div class="field half">
+            <label for="nom">Nom <span class="req">*</span></label>
+            <input id="nom" type="text" autocomplete="family-name" maxlength="100" data-format="nom" placeholder="MARTIN" required>
+          </div>
+          <div class="field">
+            <label for="email">Adresse email KPMG <span class="req">*</span></label>
+            <input id="email" type="email" autocomplete="email" placeholder="prenom.nom@kpmg.fr" maxlength="200" required>
+          </div>
+        </div>
+        <div class="actions">
+          <button id="login-btn" type="submit" class="btn-primary">
+            <span class="label">Continuer</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Questionnaire par étapes (contenu généré depuis questions.js) -->
+    <section id="view-form" class="card" hidden>
+      <div class="progress">
+        <div id="progress-bar" class="segments" aria-hidden="true"></div>
+        <p id="progress" class="progress-label"></p>
+      </div>
+      <h2 id="step-title" tabindex="-1"></h2>
+      <p id="hello" class="lead"></p>
+      <form id="questions-form" novalidate autocomplete="off">
+        <div id="steps"></div>
+        <div id="form-error" class="error" role="alert" hidden></div>
+        <div class="actions">
+          <button id="back-btn" type="button" class="btn-secondary">Retour</button>
+          <button id="next-btn" type="submit" class="btn-primary">
+            <span class="label">Suivant</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Fin : confirmation -->
+    <section id="view-done" class="card" hidden>
+      <div class="done-head">
+        <svg class="done-mark" viewBox="0 0 84 84" aria-hidden="true">
+          <circle cx="42" cy="42" r="38"/>
+          <path d="M27 43 l10 10 l20 -22"/>
+        </svg>
+        <h2 tabindex="-1">Terminé ! Votre réponse a bien été prise en compte.</h2>
+        <p class="lead">À très vite sur les pistes. Voici le récapitulatif de vos réponses :</p>
+      </div>
+      <dl id="recap"></dl>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="questions.js"></script>
+  <script src="effets.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
